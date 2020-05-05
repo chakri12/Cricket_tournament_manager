@@ -1,0 +1,29 @@
+div.brand {
+	width:70%;
+	margin:auto;
+}
+
+div.collapse >ul {
+	width:80%;
+	margin-left:0px;
+	padding-left:0%;
+	
+}
+* 	{
+	box-sizing:border-box;
+}
+
+ul.navbar-nav li	{
+	
+}
+ul.navbar-nav li >a  {
+
+	margin:0px;
+	padding:12px 8px;
+}
+
+/*	padding:6px 8px;
+	margin:auto;
+	border:1px solid black;
+}
+*/

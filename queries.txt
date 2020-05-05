@@ -1,0 +1,22 @@
+ //update bowling_average
+ update player set bowling_avg=(select sum(runs)/wickets from ball_to_ball,(select count(*) as wickets,bowler b from ball_to_ball where wicket=1 group by bowler) as t where bowler=b and b=player_id group by bowler);
+ 
+ //update economy
+ update player set economy=(select (sum(runs)*6)/balls from ball_to_ball,(select count(*) as balls,bowler b from ball_to_ball group by bowler) as t where bowler=b and b=player_id group by bowler) ;
+
+ // update dots
+  update player set dots=(select count(*)  from ball_to_ball where ball_to_ball.runs=0 and bowler=player_id group by bowler);
+  
+  
+ //Prevent team1<>team2
+ CREATE DEFINER=`root`@`localhost` TRIGGER `matches_BEFORE_INSERT` BEFORE INSERT ON `matches` FOR EACH ROW BEGIN
+        
+    IF (NEW.team_1 = NEW.team_2) THEN
+        SIGNAL SQLSTATE '45000' 
+            SET MESSAGE_TEXT = 'same names error. Insertion canceled';
+    END IF;
+END
+
+//prevent duplicate entries
+ALTER TABLE matches ADD UNIQUE KEY (date,ven_id);
+ALTER TABLE player ADD constraint UNIQUE KEY (player_name(30),country(20),DOB,batting_style(40),bowling_style(40));
